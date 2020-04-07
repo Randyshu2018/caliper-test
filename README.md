@@ -10,7 +10,7 @@ npx caliper bind --caliper-bind-sut fabric:1.4.3
 #### 启动测试网络
 ```
 cd examples/first-network
-./byfn up 
+./byfn.sh up 
 cd ../../
 ```
 
