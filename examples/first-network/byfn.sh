@@ -151,7 +151,7 @@ function checkPrereqs() {
 
 # Generate the needed certificates, the genesis block and start the network.
 function networkUp() {
-  checkPrereqs
+  # checkPrereqs
   # generate artifacts if they don't exist
   if [ ! -d "crypto-config" ]; then
     generateCerts
