@@ -25,13 +25,13 @@ LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
 COUNTER=1
 MAX_RETRY=10
 
-CC_SRC_PATH="github.com/chaincode/chaincode_example02/go/"
+CC_SRC_PATH="github.com/chaincode/marbles02/go/"
 if [ "$LANGUAGE" = "node" ]; then
-	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/chaincode_example02/node/"
+	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/marbles02/node/"
 fi
 
 if [ "$LANGUAGE" = "java" ]; then
-	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/chaincode_example02/java/"
+	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/marbles02/java/"
 fi
 
 echo "Channel name : "$CHANNEL_NAME
@@ -103,7 +103,7 @@ if [ "${NO_CHAINCODE}" != "true" ]; then
 	# Invoke chaincode on peer0.org1 and peer0.org2
 	echo "Sending invoke transaction on peer0.org1 peer0.org2..."
 	chaincodeInvoke 0 1 0 2
-	
+
 	## Install chaincode on peer1.org2
 	echo "Installing chaincode on peer1.org2..."
 	installChaincode 1 2
@@ -111,7 +111,7 @@ if [ "${NO_CHAINCODE}" != "true" ]; then
 	# Query on chaincode on peer1.org2, check if the result is 90
 	echo "Querying chaincode on peer1.org2..."
 	chaincodeQuery 1 2 90
-	
+
 fi
 
 echo

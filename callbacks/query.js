@@ -26,9 +26,9 @@ module.exports.init = async function(blockchain, context, args) {
 
 module.exports.run = async function() {
     const args = {
-        chaincodeFunction: 'query',
+        chaincodeFunction: 'readMarble',
         invokerIdentity: '#Org1',
-        chaincodeArguments: ['a']
+        chaincodeArguments: ['marble_1_10100']
     };
 
     return bc.querySmartContract(contx, contractID, '', args, 10);

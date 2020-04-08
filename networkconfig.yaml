@@ -18,7 +18,9 @@ mutual-tls: true
 
 caliper:
     blockchain: fabric
-
+    command:
+        start: docker-compose -p caliper up -d;sleep 5s
+        end: docker-compose -p caliper down;rm -rf /tmp/hfc-*;
 clients:
     User1:
         client:
@@ -32,6 +34,18 @@ clients:
             clientSignedCert:
                 path: ./examples/first-network/crypto-config/peerOrganizations/org1.example.com/users/User1@org1.example.com/msp/signcerts/User1@org1.example.com-cert.pem
 
+    User2:
+        client:
+            organization: Org2
+            credentialStore:
+                path: /tmp/hfc-kvs/org2
+                cryptoStore:
+                    path: /tmp/hfc-cvs/org2
+            clientPrivateKey:
+                path: ./examples/first-network/crypto-config/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/keystore/be11e255cf1a4fd4e55f8d2c007837fc4000f0831f7a6fc34dbadba53b9d70ac_sk
+            clientSignedCert:
+                path: ./examples/first-network/crypto-config/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/signcerts/User1@org2.example.com-cert.pem
+
 channels:
     mychannel:
         created: true
@@ -39,6 +53,8 @@ channels:
         - orderer.example.com
         peers:
             peer0.org1.example.com:
+                eventSource: true
+            peer0.org2.example.com:
                 eventSource: true
         chaincodes:
             -   id: mycc
@@ -51,11 +67,19 @@ organizations:
         mspid: Org1MSP
         peers:
         - peer0.org1.example.com
-
         adminPrivateKey:
             path: ./examples/first-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/eba6e45f424fe55c992a29d3478696535bb867fddc909d6ad64abea07a275292_sk
         signedCert:
             path: ./examples/first-network/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
+
+    Org2:
+        mspid: Org2MSP
+        peers:
+            - peer0.org2.example.com
+        adminPrivateKey:
+            path: ./examples/first-network/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/c1d452eb7894dfa70e66deb3789a4e8c05d0653ba29ef26dce5150c2e8d8da30_sk
+        signedCert:
+            path: ./examples/first-network/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem
 
 orderers:
     orderer.example.com:
@@ -73,4 +97,12 @@ peers:
             grpc.keepalive_time_ms: 600000
         tlsCACerts:
             path: ./examples/first-network/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
+
+    peer0.org2.example.com:
+        url: grpcs://localhost:9051
+        grpcOptions:
+            ssl-target-name-override: peer0.org2.example.com
+            grpc.keepalive_time_ms: 600000
+        tlsCACerts:
+            path: ./examples/first-network/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/tlscacerts/tlsca.org2.example.com-cert.pem
 

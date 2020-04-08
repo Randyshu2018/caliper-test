@@ -16,7 +16,7 @@ caliper:
     benchconfig: benchconfig.yaml
     networkconfig: networkconfig.yaml
     report:
-        path: ../report.html
+        path: report.html
     logging:
         template: '%timestamp%%level%%module%%message%%metadata%'
         formats:
@@ -41,7 +41,7 @@ caliper:
                 target: console
                 enabled: true
                 options:
-                    level: info
+                    level: debug
             file:
                 target: file
                 enabled: false

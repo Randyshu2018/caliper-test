@@ -1,8 +1,8 @@
 version: '3'
-networks:
-  my-network:
-    external:
-      name: net_byfn
+#networks:
+#  my-network:
+#    external:
+#      name: net_byfn
 volumes:
   prometheus_data: {}
 services:
@@ -23,9 +23,10 @@ services:
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
     ports:
-      - "9090:9090"
-    networks:
-      - my-network
+      - 9090:9090
+
+#    networks:
+#      - my-network
 
   nodeexporter:
     container_name: nodeexporter
@@ -36,27 +37,27 @@ services:
       - /proc:/host/proc
       - /sys:/host/sys
       - /:/rootfs
-    networks:
-      - my-network
+#    networks:
+#      - my-network
 
   grafana:
     container_name: grafana
     image:   grafana/grafana
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
       - ./grafana/grafana:/var/lib/grafana
       - ./grafana/conf:/usr/share/grafana/conf
-    networks:
-      - my-network
+#    networks:
+#      - my-network
 
   pushGateway:
     image: prom/pushgateway
     container_name: pushGateway
     ports:
-      - "9091:9091"
-    networks:
-      - my-network
+      - 9091:9091
+#    networks:
+#      - my-network
 
   cadvisor:
     image: google/cadvisor
@@ -68,8 +69,8 @@ services:
     ports:
       - 8080:8080
     restart: always
-    networks:
-      - my-network
+#    networks:
+#      - my-network
 
   ###############
   # MQTT BROKER #
@@ -85,7 +86,7 @@ services:
       - "9001:9001"
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
-    networks:
-      - my-network
+#    networks:
+#      - my-network
 
 

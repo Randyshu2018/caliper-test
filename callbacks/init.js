@@ -18,7 +18,9 @@
 
 module.exports.info  = 'Creating marbles.';
 
-const contractID = 'mycc';
+let txIndex = 0;
+let colors = ['red', 'blue', 'green', 'black', 'white', 'pink', 'rainbow'];
+let owners = ['Alice', 'Bob', 'Claire', 'David'];
 let bc, contx;
 
 module.exports.init = async function(blockchain, context, args) {
@@ -27,13 +29,20 @@ module.exports.init = async function(blockchain, context, args) {
 };
 
 module.exports.run = async function() {
-    const args = {
-        chaincodeFunction: 'query',
-        invokerIdentity: '#Org1',
-        chaincodeArguments: ['a']
+    txIndex++;
+    let marbleName = 'marble_' + txIndex.toString() + '_' + process.pid.toString();
+    // console.log('### marbleName ###' + marbleName);
+    let marbleColor = colors[txIndex % colors.length];
+    let marbleSize = (((txIndex % 10) + 1) * 10).toString(); // [10, 100]
+    let marbleOwner = owners[txIndex % owners.length];
+
+    let args = {
+        chaincodeFunction: 'initMarble',
+        chaincodeArguments: [marbleName, marbleColor, marbleSize, marbleOwner],
     };
 
-    return bc.invokeSmartContract(contx, contractID, '', args, 10);
+    // let targetCC = txIndex % 2 === 0 ? 'mymarbles' : 'yourmarbles';
+    return bc.invokeSmartContract(contx, 'mycc', '1.0', args, 5);
 };
 
 module.exports.end = async function() {};

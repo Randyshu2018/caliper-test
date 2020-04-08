@@ -14,11 +14,6 @@ cd examples/first-network
 cd ../../
 ```
 
-#### 启动服务
-```
-./monitor.sh
-```
-
 #### 开始测试
 ```
 ./run.sh

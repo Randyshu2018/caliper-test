@@ -2,7 +2,7 @@
   "name": "caliper-test",
   "version": "1.0.0",
   "description": "#### 安装Caliper ``` npm init -y \\ npm install --only=prod @hyperledger/caliper-cli@0.3.0 \\ npx caliper bind --caliper-bind-sut fabric:1.4.3 ```",
-  "main": "init.js",
+  "main": "callbacks/init.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

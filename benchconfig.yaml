@@ -18,32 +18,26 @@ test:
         type: local
         number: 2
     rounds:
-#    - label: init1
-#      txNumber: 100
-#      rateControl: { type: 'fixed-rate', opts: { tps: 20 } }
+    - label: init1
+      txNumber: 500
+      rateControl: { type: 'fixed-rate', opts: { tps: 20 } }
+      callback: ./callbacks/init.js
+#    - label: init22
+#      txNumber: 1000
+#      rateControl: { type: 'fixed-feedback-rate', opts: { tps: 50, unfinished_per_client: 5 } }
 #      callback: ./init.js
-#    - label: init2
-#      txNumber: 200
-#      rateControl: { type: 'fixed-feedback-rate', opts: { tps: 20, unfinished_per_client: 5 } }
-#      callback: ./init.js
-    - label: query
-      txNumber: 100
-      rateControl: { type: 'linear-rate', opts: { startingTps: 10, finishingTps: 20 } }
-      callback: ./query.js
+#    - label: query
+#      txNumber: 1000
+#      rateControl: { type: 'linear-rate', opts: { startingTps: 100, finishingTps: 200 } }
+#      callback: ./query.js
 observer:
-    interval: 5
+    interval: 1
     type: prometheus
 monitor:
     interval: 1
     type: ['prometheus','docker']
     docker:
-        containers:
-            - all
-        charting:
-        bar:
-            metrics: [Memory(avg), CPU%(avg)]
-        polar:
-            metrics: [all]
+        containers: ['all']
     prometheus:
         url: "http://localhost:9090"
         push_url: "http://localhost:9091"
@@ -51,7 +45,7 @@ monitor:
             ignore: [prometheus, pushGateway, cadvisor, grafana, node-exporter]
             include:
                 Endorse Time (s):
-                    query: rate(endorser_propsal_duration_sum{chaincode="mycc:v1.0"}[1m])/rate(endorser_propsal_duration_count{chaincode="mycc:v1.0"}[1m])
+                    query: rate(endorser_proposal_duration_sum{chaincode="mycc:1.0"}[1m])/rate(endorser_proposal_duration_count{chaincode="mycc:1.0"}[1m])
                     step: 1
                     label: instance
                     statistic: avg

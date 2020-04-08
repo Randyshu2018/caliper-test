@@ -1,21 +1,23 @@
 global:
-  scrape_interval:     60s
-  evaluation_interval: 60s
- 
+  scrape_interval:     1s
+#  evaluation_interval: 1m
+
 scrape_configs:
   - job_name: prometheus
+    honor_labels: true # Retain labels, as within PushGateway use
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['prometheus:9090', 'pushGateway:9091','172.30.20.65:8443', '172.30.20.65:9443']
         labels:
           instance: prometheus
 
-  - job_name: pushGateway
-    static_configs:
-    - targets: ['pushGateway:9091']
-      labels:
-          instance: pushGateway
+#  - job_name: pushGateway
+#    static_configs:
+#    - targets: ['pushGateway:9091']
+#      labels:
+#          instance: pushGateway
 
-  - job_name: containers
+  - job_name: cadvisor
+    scrape_interval: 1s
     static_configs:
       - targets: ['cadvisor:8080']
         labels:
@@ -27,14 +29,14 @@ scrape_configs:
         labels:
           instance: nodeexporter
 
-  - job_name: orderer
-    static_configs:
-      - targets: ['orderer.example.com:8443']
-        labels:
-          instance: localhost
-
-  - job_name: peer
-    static_configs:
-      - targets: ['peer0.org1.example.com:9443']
-        labels:
-          instance: localhost
+#  - job_name: orderer
+#    static_configs:
+#      - targets: ['172.30.20.65:8443']
+#        labels:
+#          instance: localhost
+#
+#  - job_name: peer
+#    static_configs:
+#      - targets: ['172.30.20.65:9443']
+#        labels:
+#          instance: localhost
