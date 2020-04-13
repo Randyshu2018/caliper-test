@@ -2,15 +2,15 @@
 
 #### 安装Caliper
 ```
-npm init -y \
-npm install --only=prod @hyperledger/caliper-cli@0.3.0 \
+npm init -y && \
+npm install --only=prod @hyperledger/caliper-cli@0.3.0 &&\
 npx caliper bind --caliper-bind-sut fabric:1.4.3
 ```
 
 #### 启动测试网络
 ```
-cd examples/first-network
-./byfn.sh up 
+cd examples/test-network
+./network.sh up
 cd ../../
 ```
 

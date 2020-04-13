@@ -1,14 +1,25 @@
 {
   "name": "caliper-test",
   "version": "1.0.0",
-  "description": "#### 安装Caliper ``` npm init -y \\ npm install --only=prod @hyperledger/caliper-cli@0.3.0 \\ npx caliper bind --caliper-bind-sut fabric:1.4.3 ```",
-  "main": "callbacks/init.js",
+  "description": "#### 安装Caliper ``` npm init -y && \\ npm install --only=prod @hyperledger/caliper-cli@0.3.0 &&\\ npx caliper bind --caliper-bind-sut fabric:1.4.3 ```",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Randyshu2018/caliper-test.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Randyshu2018/caliper-test/issues"
+  },
+  "homepage": "https://github.com/Randyshu2018/caliper-test#readme",
   "dependencies": {
     "@hyperledger/caliper-cli": "^0.3.0",
     "fabric-ca-client": "^1.4.2",

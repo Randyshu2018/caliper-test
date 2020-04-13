@@ -42,7 +42,7 @@ module.exports.run = async function() {
     };
 
     // let targetCC = txIndex % 2 === 0 ? 'mymarbles' : 'yourmarbles';
-    return bc.invokeSmartContract(contx, 'mycc', '1.0', args, 5);
+    return bc.invokeSmartContract(contx, 'mycc', '1.0', args, 60);
 };
 
 module.exports.end = async function() {};
