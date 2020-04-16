@@ -54,7 +54,11 @@ channels:
         peers:
             peer0.org1.example.com:
                 eventSource: true
+            peer1.org1.example.com:
+                eventSource: true
             peer0.org2.example.com:
+                eventSource: true
+            peer1.org2.example.com:
                 eventSource: true
         chaincodes:
             - id: fabcar
@@ -112,6 +116,7 @@ organizations:
         mspid: Org1MSP
         peers:
         - peer0.org1.example.com
+        - peer1.org1.example.com
         adminPrivateKey:
             path: ../../examples/test-network/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/priv_sk
         signedCert:
@@ -121,6 +126,7 @@ organizations:
         mspid: Org2MSP
         peers:
             - peer0.org2.example.com
+            - peer1.org2.example.com
         adminPrivateKey:
             path: ../../examples/test-network/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/priv_sk
         signedCert:
@@ -142,7 +148,13 @@ peers:
             grpc.keepalive_time_ms: 600000
         tlsCACerts:
             path: ../../examples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
-
+    peer1.org1.example.com:
+        url: grpcs://10.122.137.30:8051
+        grpcOptions:
+            ssl-target-name-override: peer1.org1.example.com
+            grpc.keepalive_time_ms: 600000
+        tlsCACerts:
+            path: ../../examples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
     peer0.org2.example.com:
         url: grpcs://10.122.137.30:9051
         grpcOptions:
@@ -150,4 +162,11 @@ peers:
             grpc.keepalive_time_ms: 600000
         tlsCACerts:
             path: ../../examples/test-network/organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/msp/tlscacerts/tlsca.org2.example.com-cert.pem
+    peer1.org2.example.com:
+        url: grpcs://10.122.137.30:10051
+        grpcOptions:
+            ssl-target-name-override: peer1.org2.example.com
+            grpc.keepalive_time_ms: 600000
+        tlsCACerts:
+            path: ../../examples/test-network/organizations/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/msp/tlscacerts/tlsca.org2.example.com-cert.pem
 
