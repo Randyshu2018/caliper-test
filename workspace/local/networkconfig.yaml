@@ -57,10 +57,55 @@ channels:
             peer0.org2.example.com:
                 eventSource: true
         chaincodes:
-            -   id: fabcar
-                contractID: fabcar
-                version: v1
-                language: golang
+        - id: fabcar
+          contractID: fabcar
+          version: v1
+          language: golang
+
+#    mychannel2:
+#        created: true
+#        orderers:
+#            - orderer.example.com
+#        peers:
+#            peer0.org1.example.com:
+#                eventSource: true
+#            peer0.org2.example.com:
+#                eventSource: true
+#        chaincodes:
+#            - id: fabcar
+#              contractID: fabcar2
+#              version: v1
+#              language: golang
+#
+#    mychannel3:
+#        created: true
+#        orderers:
+#            - orderer.example.com
+#        peers:
+#            peer0.org1.example.com:
+#                eventSource: true
+#            peer0.org2.example.com:
+#                eventSource: true
+#        chaincodes:
+#            - id: fabcar
+#              contractID: fabcar3
+#              version: v1
+#              language: golang
+#
+#    mychannel4:
+#        created: true
+#        orderers:
+#            - orderer.example.com
+#        peers:
+#            peer0.org1.example.com:
+#                eventSource: true
+#            peer0.org2.example.com:
+#                eventSource: true
+#        chaincodes:
+#        - id: fabcar
+#          contractID: fabcar4
+#          version: v1
+#          language: golang
 
 organizations:
     Org1:
@@ -83,7 +128,7 @@ organizations:
 
 orderers:
     orderer.example.com:
-        url: grpcs://localhost:7050
+        url: grpcs://192.168.0.101:7050
         grpcOptions:
             ssl-target-name-override: orderer.example.com
         tlsCACerts:
@@ -91,7 +136,7 @@ orderers:
 
 peers:
     peer0.org1.example.com:
-        url: grpcs://localhost:7051
+        url: grpcs://192.168.0.101:7051
         grpcOptions:
             ssl-target-name-override: peer0.org1.example.com
             grpc.keepalive_time_ms: 600000
@@ -99,7 +144,7 @@ peers:
             path: ../../examples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
 
     peer0.org2.example.com:
-        url: grpcs://localhost:9051
+        url: grpcs://192.168.0.101:9051
         grpcOptions:
             ssl-target-name-override: peer0.org2.example.com
             grpc.keepalive_time_ms: 600000

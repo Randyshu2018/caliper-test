@@ -25,20 +25,28 @@ setGlobals() {
   if [ -z "$OVERRIDE_ORG" ]; then
     USING_ORG=$1
   else
-    USING_ORG="${OVERRIDE_ORG}"  
+    USING_ORG="${OVERRIDE_ORG}"
   fi
+  USING_PEER=$2
   echo "Using organization ${USING_ORG}"
   if [ $USING_ORG -eq 1 ]; then
     export CORE_PEER_LOCALMSPID="Org1MSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
     export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
-    export CORE_PEER_ADDRESS=localhost:7051
+    if [ $USING_PEER -eq 0 ]; then
+      export CORE_PEER_ADDRESS=localhost:7051
+    else
+      export CORE_PEER_ADDRESS=localhost:8051
+    fi
   elif [ $USING_ORG -eq 2 ]; then
     export CORE_PEER_LOCALMSPID="Org2MSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG2_CA
     export CORE_PEER_MSPCONFIGPATH=${PWD}/organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
-    export CORE_PEER_ADDRESS=localhost:9051
-
+    if [ $USING_PEER -eq 0 ]; then
+      export CORE_PEER_ADDRESS=localhost:9051
+    else
+      export CORE_PEER_ADDRESS=localhost:10051
+    fi
   elif [ $USING_ORG -eq 3 ]; then
     export CORE_PEER_LOCALMSPID="Org3MSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
@@ -63,7 +71,7 @@ parsePeerConnectionParameters() {
   PEER_CONN_PARMS=""
   PEERS=""
   while [ "$#" -gt 0 ]; do
-    setGlobals $1
+    setGlobals $1 0
     PEER="peer0.org$1"
     PEERS="$PEERS $PEER"
     PEER_CONN_PARMS="$PEER_CONN_PARMS --peerAddresses $CORE_PEER_ADDRESS"

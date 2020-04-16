@@ -62,7 +62,8 @@ fi
 
 packageChaincode() {
   ORG=$1
-  setGlobals $ORG
+  PEER=$2
+  setGlobals $ORG $PEER
   set -x
   peer lifecycle chaincode package fabcar.tar.gz --path ${CC_SRC_PATH} --lang ${CC_RUNTIME_LANGUAGE} --label fabcar_${VERSION} >&log.txt
   res=$?
@@ -76,7 +77,8 @@ packageChaincode() {
 # installChaincode PEER ORG
 installChaincode() {
   ORG=$1
-  setGlobals $ORG
+  PEER=$2
+  setGlobals $ORG $PEER
   set -x
   peer lifecycle chaincode install fabcar.tar.gz >&log.txt
   res=$?
@@ -90,7 +92,8 @@ installChaincode() {
 # queryInstalled PEER ORG
 queryInstalled() {
   ORG=$1
-  setGlobals $ORG
+  PEER=$2
+  setGlobals $ORG $PEER
   set -x
   peer lifecycle chaincode queryinstalled >&log.txt
   res=$?
@@ -106,7 +109,8 @@ queryInstalled() {
 # approveForMyOrg VERSION PEER ORG
 approveForMyOrg() {
   ORG=$1
-  setGlobals $ORG
+  PEER=$2
+  setGlobals $ORG $PEER
 
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ] ; then
     set -x
@@ -127,7 +131,7 @@ approveForMyOrg() {
 checkCommitReadiness() {
   ORG=$1
   shift 1
-  setGlobals $ORG
+  setGlobals $ORG 0
   echo "===================== Checking the commit readiness of the chaincode definition on peer0.org${ORG} on channel '$CHANNEL_NAME'... ===================== "
 	local rc=1
 	local COUNTER=1
@@ -187,7 +191,8 @@ commitChaincodeDefinition() {
 # queryCommitted ORG
 queryCommitted() {
   ORG=$1
-  setGlobals $ORG
+  PEER=$2
+  setGlobals $ORG $PEER
   EXPECTED_RESULT="Version: ${VERSION}, Sequence: ${VERSION}, Endorsement Plugin: escc, Validation Plugin: vscc"
   echo "===================== Querying chaincode definition on peer0.org${ORG} on channel '$CHANNEL_NAME'... ===================== "
 	local rc=1
@@ -244,7 +249,8 @@ chaincodeInvokeInit() {
 
 chaincodeQuery() {
   ORG=$1
-  setGlobals $ORG
+  PEER=$2
+  setGlobals $ORG $PEER
   echo "===================== Querying on peer0.org${ORG} on channel '$CHANNEL_NAME'... ===================== "
 	local rc=1
 	local COUNTER=1
@@ -273,19 +279,23 @@ chaincodeQuery() {
 }
 
 ## at first we package the chaincode
-packageChaincode 1
+packageChaincode 1 0
 
 ## Install chaincode on peer0.org1 and peer0.org2
 echo "Installing chaincode on peer0.org1..."
-installChaincode 1
+installChaincode 1 0
+echo "Installing chaincode on peer1.org1..."
+installChaincode 1 1
 echo "Install chaincode on peer0.org2..."
-installChaincode 2
+installChaincode 2 0
+echo "Install chaincode on peer1.org2..."
+installChaincode 2 1
 
 ## query whether the chaincode is installed
-queryInstalled 1
+queryInstalled 1 0
 
 ## approve the definition for org1
-approveForMyOrg 1
+approveForMyOrg 1 0
 
 ## check whether the chaincode definition is ready to be committed
 ## expect org1 to have approved and org2 not to
@@ -293,7 +303,7 @@ checkCommitReadiness 1 "\"Org1MSP\": true" "\"Org2MSP\": false"
 checkCommitReadiness 2 "\"Org1MSP\": true" "\"Org2MSP\": false"
 
 ## now approve also for org2
-approveForMyOrg 2
+approveForMyOrg 2 0
 
 ## check whether the chaincode definition is ready to be committed
 ## expect them both to have approved
@@ -304,8 +314,8 @@ checkCommitReadiness 2 "\"Org1MSP\": true" "\"Org2MSP\": true"
 commitChaincodeDefinition 1 2
 
 ## query on both orgs to see that the definition committed successfully
-queryCommitted 1
-queryCommitted 2
+queryCommitted 1 0
+queryCommitted 2 0
 
 # Invoke the chaincode
 chaincodeInvokeInit 1 2
@@ -314,6 +324,6 @@ sleep 10
 
 # Query chaincode on peer0.org1
 echo "Querying chaincode on peer0.org1..."
-chaincodeQuery 1
+chaincodeQuery 1 0
 
 exit 0

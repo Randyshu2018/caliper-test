@@ -27,31 +27,33 @@ module.exports.init = async function(blockchain, context, args) {
 
 module.exports.run = async function() {
     txIndex++;
+    let targetPeers = txIndex % 4;
+    switch (targetPeers) {
+        case 0:
+            targetPeers = ['peer0.org1.example.com'];
+            break;
+        case 1:
+            targetPeers = ['peer1.org1.example.com'];
+            break;
+        case 2:
+            targetPeers = ['peer0.org2.example.com'];
+            break;
+        case 3:
+            targetPeers = ['peer1.org2.example.com'];
+            break;
+        default:
+            throw new Error('Unknown txIndex:'+targetPeers);
+    }
+
     let args = {
         chaincodeFunction: 'CreateCar',
         chaincodeArguments: ['CAR11','Cherry','BMW','Black','Randy'],
-        targetPeers:['peer0.org1.example.com']
+        targetPeers:targetPeers
     };
-    let targetCC = txIndex % 4;
-    switch (targetCC) {
-        case 0:
-            targetCC = 'fabcar4';
-            break;
-        case 1:
-            targetCC = 'fabcar1';
-            break;
-        case 2:
-            targetCC = 'fabcar2';
-            break;
-        case 3:
-            targetCC = 'fabcar3';
-            break;
-        default:
-            throw new Error('Unknown txIndex:'+targetCC);
-    }
+
 
     // let targetCC = txIndex % 2 === 0 ? 'fabcar1' : 'fabcar2';
-    return bc.invokeSmartContract(contx, 'fabcar4', '1', args, 120);
+    return bc.invokeSmartContract(contx, 'fabcar1', '1', args, 120);
 };
 
 module.exports.end = async function() {};

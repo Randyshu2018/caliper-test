@@ -25,7 +25,7 @@ test:
 
     - label: init1
       txNumber: 20000
-      rateControl: { type: 'fixed-rate', opts: { tps: 800 } }
+      rateControl: { type: 'fixed-rate', opts: { tps: 1000 } }
       callback: ./init.js
 #    - label: init22
 #      txNumber: 1000

@@ -49,7 +49,7 @@ createAncorPeerTx() {
 }
 
 createChannel() {
-	setGlobals 1
+	setGlobals 1 0
 
 	# Poll in case the raft leader is not set yet
 	local rc=1
@@ -80,7 +80,8 @@ createChannel() {
 # queryCommitted ORG
 joinChannel() {
   ORG=$1
-  setGlobals $ORG
+  PEER=$2
+  setGlobals $ORG $PEER
 	local rc=1
 	local COUNTER=1
 	## Sometimes Join takes time, hence retry
@@ -100,7 +101,8 @@ joinChannel() {
 
 updateAnchorPeers() {
   ORG=$1
-  setGlobals $ORG
+  PEER=$2
+  setGlobals $ORG $PEER
 
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
@@ -145,16 +147,20 @@ echo "Creating channel "$CHANNEL_NAME
 createChannel
 
 ## Join all the peers to the channel
-echo "Join Org1 peers to the channel..."
-joinChannel 1
-echo "Join Org2 peers to the channel..."
-joinChannel 2
+echo "Join peer0.Org1.example.com to the channel..."
+joinChannel 1 0
+echo "Join peer1.Org1.example.com to the channel..."
+joinChannel 1 1
+echo "Join peer0.Org2.example.com to the channel..."
+joinChannel 2 0
+echo "Join peer1.Org2.example.com to the channel..."
+joinChannel 2 1
 
 ## Set the anchor peers for each org in the channel
 echo "Updating anchor peers for org1..."
-updateAnchorPeers 1
+updateAnchorPeers 1 0
 echo "Updating anchor peers for org2..."
-updateAnchorPeers 2
+updateAnchorPeers 2 0
 
 echo
 echo "========= Channel successfully joined =========== "

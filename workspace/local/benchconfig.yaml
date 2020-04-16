@@ -24,8 +24,8 @@ test:
 #      callback: ./callbacks/init.js
 
     - label: init1
-      txNumber: 10000
-      rateControl: { type: 'fixed-rate', opts: { tps: 200 } }
+      txNumber: 5000
+      rateControl: { type: 'fixed-rate', opts: { tps: 150 } }
       callback: ./init.js
 #    - label: init22
 #      txNumber: 1000
@@ -44,8 +44,8 @@ monitor:
     docker:
         containers: ['all']
     prometheus:
-        url: "http://localhost:9090"
-        push_url: "http://localhost:9091"
+        url: "http://172.30.20.65:9090"
+        push_url: "http://172.30.20.65:9091"
         metrics:
             ignore: [prometheus, pushGateway, cadvisor, grafana, node-exporter]
             include:
