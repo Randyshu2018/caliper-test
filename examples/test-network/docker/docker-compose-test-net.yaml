@@ -95,6 +95,11 @@ services:
       - 9443:9443
     networks:
       - test
+    extra_hosts:
+      - "orderer.example.com:10.122.137.26"
+      - "peer1.org1.example.com:10.122.137.28"
+      - "peer0.org2.example.com:10.122.137.29"
+      - "peer1.org2.example.com:10.122.137.30"
 
   peer1.org1.example.com:
     container_name: peer1.org1.example.com
@@ -138,6 +143,11 @@ services:
       - 10443:10443
     networks:
       - test
+    extra_hosts:
+      - "orderer.example.com:10.122.137.26"
+      - "peer0.org1.example.com:10.122.137.27"
+      - "peer0.org2.example.com:10.122.137.29"
+      - "peer1.org2.example.com:10.122.137.30"
 
   peer0.org2.example.com:
     container_name: peer0.org2.example.com
@@ -178,6 +188,11 @@ services:
       - 9051:9051
     networks:
       - test
+    extra_hosts:
+      - "orderer.example.com:10.122.137.26"
+      - "peer0.org1.example.com:10.122.137.27"
+      - "peer1.org1.example.com:10.122.137.28"
+      - "peer1.org2.example.com:10.122.137.30"
 
   peer1.org2.example.com:
     container_name: peer1.org2.example.com
@@ -218,3 +233,8 @@ services:
       - 10051:10051
     networks:
       - test
+    extra_hosts:
+      - "orderer.example.com:10.122.137.26"
+      - "peer0.org1.example.com:10.122.137.27"
+      - "peer1.org1.example.com:10.122.137.28"
+      - "peer0.org2.example.com:10.122.137.29"
