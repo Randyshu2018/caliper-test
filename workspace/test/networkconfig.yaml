@@ -134,7 +134,7 @@ organizations:
 
 orderers:
     orderer.example.com:
-        url: grpcs://10.122.137.30:7050
+        url: grpcs://10.122.137.26:7050
         grpcOptions:
             ssl-target-name-override: orderer.example.com
         tlsCACerts:
@@ -142,21 +142,21 @@ orderers:
 
 peers:
     peer0.org1.example.com:
-        url: grpcs://10.122.137.30:7051
+        url: grpcs://10.122.137.27:7051
         grpcOptions:
             ssl-target-name-override: peer0.org1.example.com
             grpc.keepalive_time_ms: 600000
         tlsCACerts:
             path: ../../examples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
     peer1.org1.example.com:
-        url: grpcs://10.122.137.30:8051
+        url: grpcs://10.122.137.28:8051
         grpcOptions:
             ssl-target-name-override: peer1.org1.example.com
             grpc.keepalive_time_ms: 600000
         tlsCACerts:
             path: ../../examples/test-network/organizations/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/msp/tlscacerts/tlsca.org1.example.com-cert.pem
     peer0.org2.example.com:
-        url: grpcs://10.122.137.30:9051
+        url: grpcs://10.122.137.29:9051
         grpcOptions:
             ssl-target-name-override: peer0.org2.example.com
             grpc.keepalive_time_ms: 600000
