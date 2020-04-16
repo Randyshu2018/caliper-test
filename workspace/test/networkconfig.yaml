@@ -47,7 +47,7 @@ clients:
                 path: ../../examples/test-network/organizations/peerOrganizations/org2.example.com/users/User1@org2.example.com/msp/signcerts/User1@org2.example.com-cert.pem
 
 channels:
-    mychannel1:
+    mychannel:
         created: true
         orderers:
             - orderer.example.com
@@ -58,7 +58,7 @@ channels:
                 eventSource: true
         chaincodes:
             - id: fabcar
-              contractID: fabcar1
+              contractID: fabcar
               version: v1
               language: golang
 

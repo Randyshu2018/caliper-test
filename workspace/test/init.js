@@ -53,7 +53,7 @@ module.exports.run = async function() {
 
 
     // let targetCC = txIndex % 2 === 0 ? 'fabcar1' : 'fabcar2';
-    return bc.invokeSmartContract(contx, 'fabcar1', '1', args, 120);
+    return bc.invokeSmartContract(contx, 'fabcar', '1', args, 120);
 };
 
 module.exports.end = async function() {};
