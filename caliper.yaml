@@ -48,4 +48,4 @@ caliper:
     worker:
         communication:
             method: mqtt
-            address: mqtt://localhost:1883
+            address: mqtt://10.122.137.29:1883

@@ -5,20 +5,20 @@ scrape_configs:
   - job_name: prometheus
     honor_labels: true # Retain labels, as within PushGateway use
     static_configs:
-      - targets: ['prometheus:9090','pushGateway:9091','127.0.0.1:8443','127.0.0.1:9443']
+      - targets: ['10.122.137.29:9090','10.122.137.29:9091','10.122.137.30:8443','10.122.137.30:10443']
         labels:
           instance: prometheus
 
   - job_name: cadvisor
     scrape_interval: 1s
     static_configs:
-      - targets: ['127.0.0.1:8080']
+      - targets: ['10.122.137.30:8080']
         labels:
           instance: cadvisor
 
   - job_name: nodeexporter
     static_configs:
-      - targets: ['127.0.0.1:9100']
+      - targets: ['10.122.137.30:9100']
         labels:
           instance: nodeexporter
 

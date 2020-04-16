@@ -1,0 +1,98 @@
+version: '3'
+
+#volumes:
+#  prometheus_data: {}
+
+#networks:
+#  default:
+#    external:
+#      name: caliper-test_default
+
+services:
+  caliper:
+    container_name: caliper
+    image: hyperledger/caliper:0.3.0
+    command: launch master
+    environment:
+      - CALIPER_BIND_SUT=fabric:1.4.3
+      - CALIPER_WORKSPACE=workspace/test
+      - CALIPER_FLOW_ONLY_TEST=true
+      - CALIPER_PROJECTCONFIG=../../caliper.yaml
+    volumes:
+      - ./:/hyperledger/caliper/workspace
+#    depends_on:
+#      - prometheus
+#      - nodeexporter
+#      - pushGateway
+#      - cadvisor
+#      - mosquitto
+
+    ##############
+    # MONITORING #
+    ##############
+
+#  prometheus:
+#      image: prom/prometheus
+#      container_name: prometheus
+#      volumes:
+#        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#        - prometheus_data:/prometheus
+#      command:
+#        - '--config.file=/etc/prometheus/prometheus.yml'
+#        - '--storage.tsdb.path=/prometheus'
+#        - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+#        - '--web.console.templates=/usr/share/prometheus/consoles'
+#      ports:
+#        - 9090:9090
+#
+#
+#  nodeexporter:
+#      container_name: nodeexporter
+#      image: prom/node-exporter
+#      ports:
+#        - 9100:9100
+#      volumes:
+#        - /proc:/host/proc
+#        - /sys:/host/sys
+#        - /:/rootfs
+#
+#  grafana:
+#      container_name: grafana
+#      image:   grafana/grafana
+#      ports:
+#        - 3000:3000
+#      volumes:
+#        - ./grafana/grafana:/var/lib/grafana
+#        - ./grafana/conf:/usr/share/grafana/conf
+#
+#  pushGateway:
+#      image: prom/pushgateway
+#      container_name: pushGateway
+#      ports:
+#        - 9091:9091
+#
+#  cadvisor:
+#      image: google/cadvisor
+#      container_name: cadvisor
+#      volumes:
+#        - /var/run:/var/run:rw
+#        - /sys:/sys:ro
+#        - /var/lib/docker/:/var/lib/docker:ro
+#      ports:
+#        - 8080:8080
+#      restart: always
+#
+#    ###############
+#    # MQTT BROKER #
+#    ###############
+#
+#  mosquitto:
+#      image: eclipse-mosquitto
+#      hostname: mosquitto
+#      container_name: mosquitto
+#      restart: always
+#      ports:
+#        - "1883:1883"
+#        - "9001:9001"
+#      volumes:
+#        - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
