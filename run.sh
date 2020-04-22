@@ -38,9 +38,9 @@ function runLocal() {
 }
 
 function startMaster() {
-#    docker-compose -p caliper down -v
-#    docker rm -f caliper
-#    docker-compose -p caliper up -d
+    docker rm -f master
+    docker-compose -p caliper down -v
+    docker-compose -p caliper up -d
     docker-compose -f master.yaml up
 }
 
@@ -49,8 +49,8 @@ function startWorker() {
       echo "WORKER_NUMBER must be specific"
       exit 0
     fi
-    docker-compose -p caliper down -v
-    docker-compose -p caliper up -d
+#    docker-compose -p caliper down -v
+#    docker-compose -p caliper up -d
     for ((INDEX=1; INDEX<=${WORKER_NUMBER}; INDEX++))
     do
       	sed "s/%WORKER_NAME%/worker${INDEX}/g" worker.yaml > worker${INDEX}.yaml
