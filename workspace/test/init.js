@@ -27,7 +27,7 @@ module.exports.init = async function(blockchain, context, args) {
 
 module.exports.run = async function() {
     txIndex++;
-    let targetPeers = txIndex % 5;
+    let targetPeers = txIndex % 3;
     switch (targetPeers) {
         case 0:
             targetPeers = ['peer0.org1.example.com'];
@@ -36,13 +36,7 @@ module.exports.run = async function() {
             targetPeers = ['peer1.org1.example.com'];
             break;
         case 2:
-            targetPeers = ['peer0.org2.example.com'];
-            break;
-        case 3:
             targetPeers = ['peer1.org2.example.com'];
-            break;
-        case 4:
-            targetPeers = ['peer0.org2.example.com'];
             break;
         default:
             throw new Error('Unknown txIndex:'+targetPeers);
