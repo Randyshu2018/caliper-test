@@ -50,11 +50,11 @@ function startWorker() {
       exit 0
     fi
     docker-compose -p caliper down -v
-    docker rm -f caliper
     docker-compose -p caliper up -d
-    for ((INDEX=1; INDEX<=5; INDEX++))
+    for ((INDEX=1; INDEX<=${WORKER_NUMBER}; INDEX++))
     do
       	sed "s/%WORKER_NAME%/worker${INDEX}/g" worker.yaml > worker${INDEX}.yaml
+      	docker rm -f worker${INDEX}
       	docker-compose -f worker${INDEX}.yaml up -d
     done
 }
