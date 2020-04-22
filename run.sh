@@ -1,11 +1,10 @@
+dispose () {
+      npx caliper launch master --caliper-workspace ${WORK_SPACE} --caliper-flow-only-end
+}
 function runLocal() {
   export CALIPER_PROJECTCONFIG=../../caliper.yaml
 
   export WORK_SPACE='workspace/test'
-
-  dispose () {
-      npx caliper launch master --caliper-workspace ${WORK_SPACE} --caliper-flow-only-end
-  }
 
   # PHASE 1: just starting the network
   npx caliper launch master --caliper-workspace ${WORK_SPACE} --caliper-flow-only-start
@@ -21,9 +20,9 @@ function runLocal() {
   npx caliper launch master \
       --caliper-bind-sut fabric:1.4.3 \
       --caliper-workspace ${WORK_SPACE} \
-      --caliper-flow-only-test
-  #    --caliper-benchconfig benchconfig.yaml \
-  #    --caliper-networkconfig networkconfig.yaml \
+      --caliper-flow-only-test \
+#      --caliper-benchconfig benchconfig.yaml \
+#      --caliper-networkconfig networkconfig.yaml \
   #    --caliper-fabric-usegateway \
   #    --caliper-fabric-discovery \
   #    --unsafe-perm=true \
@@ -36,35 +35,55 @@ function runLocal() {
       echo "Failed CI step 7";
       exit ${rc};
   fi
-
-  rc=$?
-  if [[ ${rc} != 0 ]]; then
-      echo "Failed CI";
-      exit ${rc};
-  fi
 }
 
-function runDocker() {
+function startMaster() {
+#    docker-compose -p caliper down -v
+#    docker rm -f caliper
+#    docker-compose -p caliper up -d
+    docker-compose -f master.yaml up
+}
+
+function startWorker() {
+    if [[ -z ${WORKER_NUMBER} ]];then
+      echo "WORKER_NUMBER must be specific"
+      exit 0
+    fi
     docker-compose -p caliper down -v
     docker rm -f caliper
     docker-compose -p caliper up -d
-    docker-compose -f run.yaml up
+    for ((INDEX=1; INDEX<=5; INDEX++))
+    do
+      	sed "s/%WORKER_NAME%/worker${INDEX}/g" worker.yaml > worker${INDEX}.yaml
+      	docker-compose -f worker${INDEX}.yaml up -d
+    done
 }
-DOCKER=true
-while getopts "h?dsb" opt; do
+## Parse mode
+if [[ $# -lt 1 ]] ; then
+  printHelp
+  exit 0
+else
+  MODE=$1
+  shift
+fi
+while getopts "h?n:" opt; do
     case "$opt" in
         h|\?)
             printHelp
             exit 0
             ;;
-        d)  DOCKER=false
+        n)  WORKER_NUMBER=$OPTARG
             ;;
     esac
 done
-echo "docker ${DOCKER}"
-if [ "$DOCKER" == "true" ]; then
-    echo "start with docker..."
-    runDocker
+echo "WORKER_NUMBER ${WORKER_NUMBER}"
+if [ "$MODE" == "master" ]; then
+    echo "launch master..."
+    startMaster
+elif [ "$MODE" == "worker" ]; then
+    echo "launch worker..."
+    startWorker
 else
+    echo "run local..."
     runLocal
 fi

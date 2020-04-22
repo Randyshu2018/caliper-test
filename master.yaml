@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  master:
+    container_name: master
+    image: hyperledger/caliper:0.3.0
+    command: launch master
+    environment:
+      - CALIPER_BIND_SUT=fabric:1.4.3
+      - CALIPER_WORKSPACE=workspace/test
+      - CALIPER_FLOW_ONLY_TEST=true
+      - CALIPER_PROJECTCONFIG=../../caliper.yaml
+    volumes:
+      - ./:/hyperledger/caliper/workspace
