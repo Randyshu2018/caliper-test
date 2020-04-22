@@ -46,6 +46,7 @@ caliper:
                 target: file
                 enabled: false
     worker:
+        remote: true
         communication:
             method: mqtt
-            address: mqtt://10.122.137.29:1883
+            address: mqtt://172.30.20.65:1883

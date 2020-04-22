@@ -16,7 +16,7 @@
 test:
     workers:
         type: local
-        number: 10
+        number: 2
     rounds:
 #    - label: init1
 #      txNumber: 1000
@@ -24,8 +24,8 @@ test:
 #      callback: ./callbacks/init.js
 
     - label: init1
-      txNumber: 20000
-      rateControl: { type: 'fixed-rate', opts: { tps: 1000 } }
+      txNumber: 1000
+      rateControl: { type: 'fixed-rate', opts: { tps: 50 } }
       callback: ./init.js
 #    - label: init22
 #      txNumber: 1000
@@ -40,28 +40,32 @@ observer:
     type: prometheus
 monitor:
     interval: 1
-    type: ['prometheus','docker']
-    docker:
-        containers: ['all']
+    type: ['prometheus']
+#    docker:
+#        containers: ['all']
     prometheus:
-        url: "http://10.122.137.29:9090"
-        push_url: "http://10.122.137.29:9091"
+        url: "http://172.30.20.65:9090"
+        push_url: "http://172.30.20.65:9091"
         metrics:
-            ignore: [prometheus, pushGateway, cadvisor, grafana, node-exporter]
+            ignore: [prometheus, pushGateway, cadvisor, grafana, node-exporter, mosquitto]
             include:
-                Endorse Time (s):
-                    query: rate(endorser_propsal_duration_sum{chaincode="mycc:1.0"}[1m])/rate(endorser_propsal_duration_count{chaincode="mycc:1.0"}[1m])
+#                Endorse Time (s):
+#                    query: rate(endorser_proposal_duration_sum{chaincode="fabcar"}[1m])/rate(endorser_proposal_duration_count{chaincode="fabcar"}[1m])
+#                    step: 1
+#                    label: instance
+#                    statistic: avg
+                CPU Usage (%):
+                    query: 100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[1m])) * 100)
                     step: 1
                     label: instance
                     statistic: avg
-                Max Memory (MB):
-                    query: sum(container_memory_rss{name=~".+"}) by (name)
-                    step: 10
-                    label: name
-                    statistic: max
-                    multiplier: 0.000001
+#                Memory Usage (%):
+#                    query: 100 * (1 - ((avg_over_time(node_memory_MemFree[1m]) + avg_over_time(node_memory_Cached[1m]) + avg_over_time(node_memory_Buffers[1m])) / avg_over_time(node_memory_MemTotal[1m])))
+#                    step: 1
+#                    label: instance
+#                    statistic: avg
         charting:
-            polar:
-                metrics: [Max Memory (MB)]
+#            polar:
+#                metrics: [none]
             bar:
                 metrics: [all]

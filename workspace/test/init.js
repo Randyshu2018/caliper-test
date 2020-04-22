@@ -36,7 +36,7 @@ module.exports.run = async function() {
             targetPeers = ['peer1.org1.example.com'];
             break;
         case 2:
-            targetPeers = ['peer0.org2.example.com'];
+            targetPeers = ['peer1.org2.example.com'];
             break;
         case 3:
             targetPeers = ['peer1.org2.example.com'];
