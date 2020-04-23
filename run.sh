@@ -49,12 +49,12 @@ function startWorker() {
       echo "WORKER_NUMBER must be specific"
       exit 0
     fi
-    docker-compose -f monitor.yaml down -v
-    docker-compose -f monitor.yaml up -d
-    for ((INDEX=1; INDEX<=${WORKER_NUMBER}; INDEX++))
+     for ((INDEX=1; INDEX<=${WORKER_NUMBER}; INDEX++))
     do
       	docker rm -f worker${INDEX}
     done
+    docker-compose -f monitor.yaml down -v
+    docker-compose -f monitor.yaml up -d
     for ((INDEX=1; INDEX<=${WORKER_NUMBER}; INDEX++))
     do
       	sed "s/%WORKER_NAME%/worker${INDEX}/g" worker.yaml > worker${INDEX}.yaml
