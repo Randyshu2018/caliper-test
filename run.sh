@@ -61,6 +61,17 @@ function startWorker() {
       	docker-compose -f worker${INDEX}.yaml up -d
     done
 }
+function deleteWorker() {
+    if [[ -z ${WORKER_NUMBER} ]];then
+      echo "WORKER_NUMBER must be specific"
+      exit 0
+    fi
+     for ((INDEX=1; INDEX<=${WORKER_NUMBER}; INDEX++))
+    do
+      	docker rm -f worker${INDEX}
+    done
+    docker-compose -f monitor.yaml down -v
+}
 ## Parse mode
 if [[ $# -lt 1 ]] ; then
   printHelp
@@ -86,6 +97,9 @@ if [ "$MODE" == "master" ]; then
 elif [ "$MODE" == "worker" ]; then
     echo "launch worker..."
     startWorker
+elif [ "$MODE" == "delete" ]; then
+    echo "delete worker..."
+    deleteWorker
 else
     echo "run local..."
     runLocal
